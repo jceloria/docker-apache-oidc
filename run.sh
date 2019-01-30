@@ -6,7 +6,7 @@ set -xe
 
 [[ -z "${SERVER_NAME}" ]] && export SERVER_NAME=localhost
 
-if [[ ! -e /etc/apache2/conf.d/defaults ]]; then
+if [[ -e /tmp/defaults ]] && [[ ! -e /etc/apache2/conf.d/defaults ]]; then
     mv /tmp/defaults /etc/apache2/conf.d/defaults
 else
     rm -rf /tmp/defaults
