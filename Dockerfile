@@ -13,8 +13,8 @@ RUN cd /tmp/build && apk --no-cache add \
         libxml2 libxml2-dev lua-dev make nghttp2-dev pcre pcre-dev perl \
         tar zlib-dev && \
     ./install-openidc.sh && ./configure-apache.sh && mv run.sh / && \
-    apk --no-cache del *-dev autoconf automake curl gcc git \
-        hiredis make perl && \
+    apk --no-cache del *-dev autoconf automake gcc git \
+        make perl && \
     scanelf --needed --nobanner --recursive /usr/sbin/httpd | \
         awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' | \
         xargs -r apk info --installed | sort -u | xargs apk add --no-cache && \
