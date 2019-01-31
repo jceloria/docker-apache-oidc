@@ -22,4 +22,10 @@ sed -i 's@^#*\(ServerRoot\).*@\1 /etc/apache2@g' httpd.conf
 sed -i 's@^#\(ServerName\).*@\1 ${SERVER_NAME}@g' httpd.conf
 sed -i 's@/var/www/localhost/htdocs@${DOCUMENT_ROOT}@g' httpd.conf
 
+# generate a snakeoil certificate in case it's needed
+openssl req -newkey rsa:4096 -days 365 -nodes -x509 \
+    -subj "/C=US/ST=State/L=Locality/O=Random Bits/OU=Widgets/CN=localhost/emailAddress=root@localhost" \
+    -keyout /etc/ssl/certs/localhost.key \
+    -out /etc/ssl/certs/localhost.crt
+
 exit 0
