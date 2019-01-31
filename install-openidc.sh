@@ -25,6 +25,5 @@ cd cjose* && ./configure --prefix=/usr --with-jansson=/usr --with-openssl=/usr &
 curl -L ${OPENIDC_URL} | tar zxf -
 cd mod_auth_openidc* && ./autogen.sh && \
     ./configure --with-apxs2=$(which apxs) && make && make install && \
-    sed  -i '1i\LoadModule auth_openidc_module modules/mod_auth_openidc.so\n' auth_openidc.conf && \
         mv auth_openidc.conf /etc/apache2/conf.d/auth_openidc.conf && cd -
 exit 0
