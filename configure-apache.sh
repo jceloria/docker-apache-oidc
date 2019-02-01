@@ -21,7 +21,9 @@ sed -n '/foo_module/{p;:a;N;/IfModule unixd_module/!ba;s/.*\n/#\nInclude conf.d\
 # update minimum required configuration options
 sed -i 's@^#*\(ServerRoot\).*@\1 /etc/apache2@g' httpd.conf
 sed -i 's@^#\(ServerName\).*@\1 ${SERVER_NAME}@g' httpd.conf
+sed -i 's@^#*\(ServerAdmin\).*@\1 ${SERVER_ADMIN}@g' httpd.conf
 sed -i 's@/var/www/localhost/htdocs@${DOCUMENT_ROOT}@g' httpd.conf
+sed -i 's@Options Indexes@Options -Indexes@g' httpd.conf
 
 # generate a snakeoil certificate in case it's needed
 openssl req -newkey rsa:4096 -days 365 -nodes -x509 \
