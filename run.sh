@@ -2,10 +2,6 @@
 
 set -xe
 
-if [[ ! -e /etc/localtime ]]; then
-    ln -s /usr/share/zoneinfo/${TZ:=UTC} /etc/localtime
-fi
-
 export SERVER_NAME="${SERVER_NAME:=localhost}"
 export SERVER_ADMIN="${SERVER_ADMIN:=root@localhost}"
 export DOCUMENT_ROOT="${DOCUMENT_ROOT:=/var/www/localhost/htdocs}"
