@@ -2,11 +2,13 @@
 
 set -xe
 
-[[ -f "${CUSTOM_SCRIPT}" ]] && . ${CUSTOM_SCRIPT}
+if [[ ! -e /etc/localtime ]]; then
+    ln -s /usr/share/zoneinfo/${TZ:=UTC} /etc/localtime
+fi
 
-[[ -z "${SERVER_NAME}" ]] && export SERVER_NAME="localhost"
-[[ -z "${SERVER_ADMIN}" ]] && export SERVER_ADMIN="root@localhost"
-[[ -z "${DOCUMENT_ROOT}" ]] && export DOCUMENT_ROOT="/var/www/localhost/htdocs"
+export SERVER_NAME="${SERVER_NAME:=localhost}"
+export SERVER_ADMIN="${SERVER_ADMIN:=root@localhost}"
+export DOCUMENT_ROOT="${DOCUMENT_ROOT:=/var/www/localhost/htdocs}"
 
 if [[ ! -e /etc/apache2/conf.d/modules.d ]]; then
     mv /tmp/defaults/modules.d /etc/apache2/conf.d
@@ -17,5 +19,10 @@ if [[ ! -e /etc/apache2/conf.d/defaults ]]; then
 fi
 
 rm -rf /tmp/defaults 2>&1 >/dev/null
+
+if [[ -f "${CUSTOM_SCRIPT}" ]]; then
+    echo "A custom script has been found: ${CUSTOM_SCRIPT}"
+    . ${CUSTOM_SCRIPT}
+fi
 
 exec /usr/sbin/httpd -DNO_DETACH -DFOREGROUND
