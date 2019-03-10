@@ -11,7 +11,7 @@ ln -s ../../var/log/apache2 logs
 ln -s /run/apache2 run
 
 # move default configuration files out of the way
-mkdir -p /tmp/defaults && mv httpd.conf modules.d conf.d/* /tmp/defaults
+mkdir -p /tmp/defaults && mv httpd.conf modules.d conf.d/* /etc/php7 /tmp/defaults
 chown -R root:root /tmp/defaults
 
 # load modules from included directory
