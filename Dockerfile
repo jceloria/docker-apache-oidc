@@ -13,7 +13,7 @@ RUN cd /tmp/build && apk --no-cache add \
         libxml2-dev lua-dev make nghttp2-dev pcre pcre-dev perl \
         php7-apache2 php7-ctype php7-dom php7-json php7-openssl \
         php7-pdo_mysql php7-simplexml php7-pdo_sqlite php7-xml \
-        php7-xmlreader php7-xmlwriter tar zlib-dev && \
+        php7-xmlreader php7-xmlwriter rsync tar zlib-dev && \
     ./install-openidc.sh && ./configure-apache.sh && mv run.sh / && \
     apk --no-cache del *-dev autoconf automake gcc git \
         make perl unzip && \
