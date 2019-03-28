@@ -20,4 +20,4 @@ if [[ ${#IMAGES[@]} -gt 0 ]]; then
 fi
 
 [[ $1 =~ -[yY] ]] || read -p "Preparing to build ${USER}/${NAME}, hit [Enter] to continue: "
-docker build --squash --rm --no-cache --pull -t ${USER}/${NAME} .
+docker build --rm --no-cache --pull -t ${USER}/${NAME} .
