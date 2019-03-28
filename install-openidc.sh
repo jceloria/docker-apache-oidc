@@ -17,12 +17,12 @@ OPENIDC_URL="https://github.com/zmartzone/mod_auth_openidc/releases/download/v${
 cd /tmp/build
 
 # install Cisco's C library implementing the Javascript Object Signing and Encryption (JOSE) 
-curl -L ${CJOSE_URL} | tar zxf -
+curl -# -L ${CJOSE_URL} | tar zxf -
 cd cjose* && ./configure --prefix=/usr --with-jansson=/usr --with-openssl=/usr && \
     make && make install && cd -
 
 # install mod_auth_openidc from source
-curl -L ${OPENIDC_URL} | tar zxf -
+curl -# -L ${OPENIDC_URL} | tar zxf -
 cd mod_auth_openidc* && ./autogen.sh && \
     ./configure --with-apxs2=$(which apxs) && make && make install && \
         mv auth_openidc.conf /etc/apache2/conf.d/auth_openidc.conf && cd -
