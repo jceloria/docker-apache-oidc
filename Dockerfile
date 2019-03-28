@@ -4,22 +4,23 @@ ENV OPENIDC_VERSION=2.3.10.2
 
 COPY . /tmp/build
 
-RUN cd /tmp/build && apk --no-cache add \
-        apache2 apache2-dev apache2-error apache2-http2 apache2-icons \
+RUN cd /tmp/build && \
+    apk add --no-cache --virtual .build-deps apache2-dev apr-dev \
+        apr-util-dev autoconf automake build-base curl curl-dev hiredis-dev \
+        jansson-dev libc-dev libressl-dev libxml2-dev lua-dev nghttp2-dev \
+        pcre-dev perl zlib-dev && \
+    apk --no-cache add apache2 apache2-error apache2-http2 apache2-icons \
         apache2-lua apache2-mod-wsgi apache2-proxy apache2-proxy-html \
-        apache2-ssl apache2-utils apache2-webdav apr-dev apr-util-dev \
-        autoconf automake curl curl-dev gcc git hiredis hiredis-dev \
-        jansson jansson-dev jq libc-dev libressl libressl-dev libxml2 \
-        libxml2-dev lua-dev make nghttp2-dev pcre pcre-dev perl \
-        php7-apache2 php7-ctype php7-dom php7-json php7-openssl \
-        php7-pdo_mysql php7-simplexml php7-pdo_sqlite php7-xml \
-        php7-xmlreader php7-xmlwriter rsync tar zlib-dev && \
+        apache2-ssl apache2-utils apache2-webdav hiredis jansson \
+        libressl libxml2 php7 php7-apache2 php7-ctype php7-dom php7-json \
+        php7-openssl php7-pdo_mysql php7-pdo_sqlite php7-simplexml \
+        php7-xml php7-xmlreader php7-xmlwriter tar zlib-dev && \
     ./install-openidc.sh && ./configure-apache.sh && mv run.sh / && \
-    apk --no-cache del *-dev autoconf automake gcc git \
-        make perl unzip && \
-    scanelf --needed --nobanner --recursive /usr/sbin/httpd | \
-        awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' | \
-        xargs -r apk info --installed | sort -u | xargs apk add --no-cache && \
+    runDeps=$( \
+        scanelf -nBR /usr/lib/apache2 /usr/sbin/httpd | \
+            awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' | \
+            xargs -r apk info --installed | sort -u \
+    ) && apk del --no-cache .build-deps && apk add --no-cache ${runDeps} && \
     rm -rf /var/cache/apk/* /tmp/build
 
 VOLUME /etc/apache2/conf.d
