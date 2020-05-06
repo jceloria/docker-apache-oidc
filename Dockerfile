@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.11
 
 ENV OPENIDC_VERSION=2.3.10.2
 
@@ -13,9 +13,10 @@ RUN cd /tmp/build && \
         apache2-lua apache2-mod-wsgi apache2-proxy apache2-proxy-html \
         apache2-ssl apache2-utils apache2-webdav composer hiredis jansson \
         libressl libxml2 php7 php7-apache2 php7-ctype php7-curl php7-dom \
-        php7-gd php7-iconv php7-json php7-mbstring php7-openssl php7-pdo_mysql \
-        php7-pdo_sqlite php7-phar php7-session php7-simplexml php7-tokenizer \
-        php7-xml php7-xmlreader php7-xmlwriter php7-zip tar zlib-dev && \
+        php7-fileinfo php7-gd php7-iconv php7-json php7-mbstring php7-openssl \
+        php7-pdo_mysql php7-pdo_sqlite php7-phar php7-session php7-simplexml \
+        php7-tokenizer php7-xml php7-xmlreader php7-xmlwriter php7-zip tar \
+        zlib-dev && \
     ./install-openidc.sh && ./configure-apache.sh && mv run.sh / && \
     runDeps=$( \
         scanelf -nBR /usr/lib/apache2 /usr/sbin/httpd | \
