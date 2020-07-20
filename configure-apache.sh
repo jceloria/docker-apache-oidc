@@ -19,6 +19,9 @@ for src in ${PWD}/httpd.conf ${PWD}/conf.d /etc/php7; do
     dst=/tmp/defaults${src%/*}; mkdir -p ${dst}; mv ${src} ${dst}
 done && chown -R root:root /tmp/defaults
 
+# fix broken defaults
+find /tmp/defaults -name proxy-html.conf | xargs sed -i 's/libxml2.so/libxml2.so.2/g'
+
 # load modules from included directory
 sed -n '/foo_module/{p;:a;N;/IfModule unixd_module/!ba;s/.*\n/#\nInclude conf.d\/modules.d\/\*.conf\n\n/};p' \
     /tmp/defaults${PWD}/httpd.conf > httpd.conf
